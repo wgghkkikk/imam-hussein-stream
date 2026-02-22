@@ -21,3 +21,4 @@ jobs:
             -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
             sleep 5
           done
+س
