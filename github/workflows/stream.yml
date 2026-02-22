@@ -1,0 +1,23 @@
+name: Live Stream From Source
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *' # يعيد تشغيل نفسه كل 6 ساعات لضمان عدم التوقف
+
+jobs:
+  stream:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install FFmpeg
+        run: sudo apt update && sudo apt install ffmpeg -y
+      
+      - name: Start Streaming
+        run: |
+          while true; do
+            ffmpeg -re -i "https://alkafeel.net/live/hls/stream.m3u8" \
+            -c:v libx264 -preset ultrafast -b:v 1500k \
+            -c:a aac -b:a 128k -ar 44100 \
+            -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
+            sleep 5
+          done
