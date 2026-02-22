@@ -1,9 +1,9 @@
-name: Live Stream From Source
+name: Live Stream Pro
 on:
   push:
   workflow_dispatch:
   schedule:
-    - cron: '0 */6 * * *' # يعيد تشغيل نفسه كل 6 ساعات لضمان عدم التوقف
+    - cron: '0 */6 * * *' # يعيد تشغيل نفسه كل 6 ساعات
 
 jobs:
   stream:
@@ -14,10 +14,7 @@ jobs:
       
       - name: Start Streaming
         run: |
-          while true; do
-            ffmpeg -re -i "https://alkafeel.net/live/hls/stream.m3u8" \
-            -c:v libx264 -preset ultrafast -b:v 1500k \
-            -c:a aac -b:a 128k -ar 44100 \
-            -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
-            sleep 5
-          done
+          ffmpeg -re -i "https://rtmp.alkafeel.net:8081/live/stream/playlist.m3u8" \
+          -c:v libx264 -preset ultrafast -tune zerolatency -b:v 1500k \
+          -c:a aac -b:a 128k -ar 44100 \
+          -f flv "rtmp://a.rtmp.youtube.com/live2/q12g-s6wc-0y03-0ua5-6e6p"
